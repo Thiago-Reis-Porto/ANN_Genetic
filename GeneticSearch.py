@@ -204,7 +204,7 @@ def main():
                                    cv=cv,
                                    scoring=scorer,
                                    population_size=20,
-                                   generations=10,
+                                   generations=20,
                                    tournament_size=3,
                                    elitism=True,
                                    crossover_probability=0.8,
