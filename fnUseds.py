@@ -206,6 +206,7 @@ def train(ins, path, config, epochs, model, loss_fn, opt, data, val_data, schedu
 
 def validation_batch_interation(model, loss_fn, val_data, val_batches_losses, preds, targets):
     for val_xb, val_yb in val_data:
+        val_xb, val_yb = val_xb.to('cuda'), val_yb.to('cuda')
         val_pred = model(val_xb)
         val_loss = loss_fn(val_pred, val_yb)
         val_batches_losses.append(val_loss.detach().item())
@@ -274,6 +275,7 @@ def get_losses_and_lr(opt, scheduler, epochs_losses, batches_losses):
 
 def batch_interaction(model, loss_fn, opt, data, batches_losses, no_val=False, preds=None, targets=None):
     for xb, yb in data:
+        xb, yb = xb.to('cuda'), yb.to('cuda')
         pred = model(xb)
         loss = loss_fn(pred, yb)
         loss.backward()
