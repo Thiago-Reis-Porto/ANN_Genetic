@@ -210,8 +210,8 @@ def validation_batch_interation(model, loss_fn, val_data, val_batches_losses, pr
         val_pred = model(val_xb)
         val_loss = loss_fn(val_pred, val_yb)
         val_batches_losses.append(val_loss.detach().item())
-        preds = preds + val_pred.detach().numpy().tolist()
-        targets = targets + val_yb.detach().numpy().tolist()
+        preds = preds + val_pred.to('cpu').detach().numpy().tolist()
+        targets = targets + val_yb.to('cpu').detach().numpy().tolist()
     return preds,targets,val_yb,val_pred
 
 def save_model(ins, path, config, model, preds, targets, val_yb, val_pred, epoch_loss, val=True):
@@ -283,8 +283,8 @@ def batch_interaction(model, loss_fn, opt, data, batches_losses, no_val=False, p
         opt.zero_grad()
         batches_losses.append(loss.detach().item())
         if no_val:
-            preds += pred.detach().numpy().tolist()
-            targets += yb.detach().numpy().tolist()
+            preds += pred.to('cpu').detach().numpy().tolist()
+            targets += yb.to('cpu').detach().numpy().tolist()
 
 def error_metrics(predicts, targets):
     r2 = metrics.r2_score(targets, predicts)
