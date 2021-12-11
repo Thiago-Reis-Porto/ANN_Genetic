@@ -55,7 +55,6 @@ class Model(BaseEstimator, RegressorMixin):
         self.eps = eps
 
     def fit(self, x, y=None, **kwargs):
-
         fnUseds.set_reproducible_seed(self.seed)
         ins2 = list(self.ins)
         self.ins2 = list(self.ins)
@@ -167,12 +166,11 @@ def main():
     path = str(path) + '/' + name + '/plots/'
     df = pd.read_csv('tabela-7-tensoes-treinamento.csv', sep=';')
     df_test = pd.read_csv('tabela-7-tensoes-teste.csv', sep=';')
-    df = pd.read_csv('test_normalizado.csv')
+    df = pd.read_csv('test_normalizado.csv', index_col=0)
     df_test = pd.read_csv('test2.csv')
     labels = df.columns.values
     
     ins = fnUseds.powerset(labels[:13])
-
 
     param_grid = {'ins': Categorical(choices=list(ins)), 'seed': Integer(lower=98186, upper=98186)}
 
@@ -183,7 +181,7 @@ def main():
     evolved_estimator = GASearchCV(estimator=model,
                                    cv=cv,
                                    scoring=scorer,
-                                   population_size=5,
+                                   population_size=2,
                                    generations=2,
                                    tournament_size=3,
                                    elitism=True,
