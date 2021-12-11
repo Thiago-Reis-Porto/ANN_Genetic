@@ -14,7 +14,7 @@ from sklearn_genetic.space import Categorical, Continuous, Integer
 
 import fnUseds
 
-device = 'cuda'
+device = 'cpu'
 
 
 class Net(nn.Module):
