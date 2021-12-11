@@ -206,12 +206,11 @@ def train(ins, path, config, epochs, model, loss_fn, opt, data, val_data, schedu
 
 def validation_batch_interation(model, loss_fn, val_data, val_batches_losses, preds, targets):
     for val_xb, val_yb in val_data:
-        val_xb, val_yb = val_xb.to('cuda'), val_yb.to('cuda')
         val_pred = model(val_xb)
         val_loss = loss_fn(val_pred, val_yb)
         val_batches_losses.append(val_loss.detach().item())
-        preds = preds + val_pred.to('cpu').detach().numpy().tolist()
-        targets = targets + val_yb.to('cpu').detach().numpy().tolist()
+        preds = preds + val_pred.detach().numpy().tolist()
+        targets = targets + val_yb.detach().numpy().tolist()
     return preds,targets,val_yb,val_pred
 
 def save_model(ins, path, config, model, preds, targets, val_yb, val_pred, epoch_loss, val=True):
@@ -275,7 +274,6 @@ def get_losses_and_lr(opt, scheduler, epochs_losses, batches_losses):
 
 def batch_interaction(model, loss_fn, opt, data, batches_losses, no_val=False, preds=None, targets=None):
     for xb, yb in data:
-        xb, yb = xb.to('cuda'), yb.to('cuda')
         pred = model(xb)
         loss = loss_fn(pred, yb)
         loss.backward()
@@ -283,8 +281,8 @@ def batch_interaction(model, loss_fn, opt, data, batches_losses, no_val=False, p
         opt.zero_grad()
         batches_losses.append(loss.detach().item())
         if no_val:
-            preds += pred.to('cpu').detach().numpy().tolist()
-            targets += yb.to('cpu').detach().numpy().tolist()
+            preds += pred.detach().numpy().tolist()
+            targets += yb.detach().numpy().tolist()
 
 def error_metrics(predicts, targets):
     r2 = metrics.r2_score(targets, predicts)
