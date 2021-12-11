@@ -12,7 +12,7 @@ from sklearn_genetic.space import Continuous, Categorical, Integer
 import sklearn as sk
 import numpy as np
 
-device = 'cpu'
+device = 'gpu'
 
 class Net(nn.Module):
     def __init__(self, inputs):
@@ -203,11 +203,11 @@ def main():
     evolved_estimator = GASearchCV(estimator=model,
                                    cv=cv,
                                    scoring=scorer,
-                                   population_size=100,
-                                   generations=200,
+                                   population_size=40,
+                                   generations=100,
                                    tournament_size=3,
                                    elitism=True,
-                                   crossover_probability=0.7,
+                                   crossover_probability=0.8,
                                    mutation_probability=0.1,
                                    param_grid=param_grid,
                                    criteria='max',
