@@ -274,7 +274,7 @@ def get_losses_and_lr(opt, scheduler, epochs_losses, batches_losses):
 
 def batch_interaction(model, loss_fn, opt, data, batches_losses, no_val=False, preds=None, targets=None):
     for xb, yb in data:
-        pred = model(xb)
+        pred = model(xb.to('cuda'))
         loss = loss_fn(pred, yb)
         loss.backward()
         opt.step()
