@@ -165,9 +165,7 @@ def main():
     name = fnUseds.dirStart()
     path = str(path) + '/' + name + '/plots/'
     df = pd.read_csv('tabela-7-tensoes-treinamento.csv', sep=';')
-    df_test = pd.read_csv('tabela-7-tensoes-teste.csv', sep=';')
     df = pd.read_csv('test_normalizado.csv', index_col=0)
-    df_test = pd.read_csv('test2.csv')
     labels = df.columns.values
     
     ins = fnUseds.powerset(labels[:13])
